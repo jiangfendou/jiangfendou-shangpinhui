@@ -1,12 +1,22 @@
 <template>
   <div>
-    我是首页
+    <TypeNav></TypeNav>
+    <ListContainer></ListContainer>
+    <Recommend></Recommend>
+    <Rank></Rank>
   </div>
 </template>
 
 <script>
+import ListContainer from '@/pages/home/listContainer/listContainer'
+import Recommend from '@/pages/home/recommend/recommend'
+import Rank from '@/pages/home/rank/rank'
 export default {
-  components: {},
+  components: {
+    ListContainer,
+    Recommend,
+    Rank
+  },
   props: {},
   data() {
     return {

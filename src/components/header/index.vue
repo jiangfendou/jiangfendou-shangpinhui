@@ -66,7 +66,26 @@ export default {
         // this.$router.push(`/search/${this.keyword}?k=${this.keyword.toUpperCase()}`)
 
         // 3、对像
-        this.$router.push({name:"search", params:{"keyword": this.keyword}, query: {k: this.keyword.toUpperCase()}})
+        // this.$router.push({name:"search", params:{"keyword": this.keyword}, query: {k: this.keyword.toUpperCase()}})
+
+        // -------------------------- 面试题 --------------------------
+
+        // 1、路由传递参数（对像写法）path是否可以结合param参数一起使用？
+        // 答：路由跳转传参数的时候，对像的写法可以是name和path的形式，但是需要注意的是path的形式，是不能和params参数一起使用的。
+        // this.$router.push({path: '/search', params: {"keyword": this.keyword}, query: {k:this.keyword.toUpperCase()}})
+
+        // 2、如何指定param参数可传可不传？
+        // 比如配置路由的时候已经占位了，但是路由传递的时候就不传递参数（params）路径会出现问题.
+        // 如果指定路由参数params参数可传递、或者不传递，在配置路由的时候，在占位符的后面加上问好 “?”
+        // this.$router.push({name: 'search', query: {k:this.keyword.toUpperCase()}})
+
+        // 3、param参数可传可不传，但是如果传递是空串，如何解决？
+        // 使用undefined解决：params参数可以传递、不传递（空的字符串）
+        this.$router.push({name: 'search', params: {"keyword": '' || undefined}, query: {k:this.keyword.toUpperCase()}})
+
+        // 4、路由组件能不能传递props数据？
+        this.$router.push({name: 'search', params: {"keyword": '' || undefined}, query: {k:this.keyword.toUpperCase()}})
+
     }
   },
   created() {},

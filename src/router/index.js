@@ -2,13 +2,35 @@
 import VueRouter from 'vue-router'
 import Vue from 'vue'
 
-
-
 // 引入路由组件
 import Home from '../pages/home/index'
 import Login from '../pages/login/index'
 import Register from '../pages/register/index'
 import Search from '../pages/search/index'
+
+// 先把VueRouter原型对像的push，先保存一份
+let originPush = VueRouter.prototype.push;
+let originReplace = VueRouter.prototype.replace;
+
+// 重写push | replace
+// 第一个参数：告诉原来的push方法，往哪里跳
+// 第二个参数是成功的回调
+// 第三个参数是失败的回调
+VueRouter.prototype.push = function(location, resolve, reject) {
+    if (resolve && reject) {
+        originPush.call(this, location, resolve, reject);
+    } else {
+        originPush.call(this, location, () => {}, () => {});
+    }
+}
+
+VueRouter.prototype.replace = function(location, resolve, reject) {
+    if (resolve && reject) {
+        originReplace.call(this, location, resolve, reject);
+    } else {
+        originReplace.call(this, location, () => {}, () => {});
+    }
+}
 
 // 使用插件
 Vue.use(VueRouter);
@@ -33,6 +55,14 @@ Vue.use(VueRouter);
  * 
  */
 
+/**
+ * 路由面试题
+ * 1、路由传递参数（对像写法）path是否可以结合param参数一起使用？
+ * 2、如何指定param参数可传可不传？
+ * 3、param参数可传可不传，但是如果传递是空串，如何解决？
+ * 4、路由组件能不能传递props数据？ 
+ */
+
 //配置路由
 export default new VueRouter({
 
@@ -42,10 +72,18 @@ export default new VueRouter({
             meta: { show: true }
         },
         {
-            path: "/search/:keyword",
+            path: "/search/:keyword?",
             component: Search,
             meta: { show: true },
-            name: "search"
+            name: "search",
+            // boolean值的写法
+            // props: true
+            // 对像写法
+            // props: { "a": 1, "b": 2 }
+            // 函数写法：可以params参数、通过props传递给路由组件
+            // props: ($route) => {
+            //     return { keyword: $route.params.keyword, k: $route.query.k }
+            // }
         },
         {
             path: "/login",
